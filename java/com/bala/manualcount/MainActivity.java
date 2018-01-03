@@ -3,12 +3,14 @@ package com.bala.manualcount;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.net.Uri;
 import java.util.Random;
 import java.util.Calendar;
 import java.text.DateFormat;
@@ -58,6 +60,22 @@ public class MainActivity extends Activity {
 					Context context = getApplicationContext();
 					Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
 				}
+			}
+		});
+		layOut.setOnLongClickListener(new View.OnLongClickListener(){
+			@Override
+			public boolean  onLongClick(View view) {
+				Context context = getApplicationContext();
+				Toast.makeText(context,"Sending data",Toast.LENGTH_SHORT).show();
+				Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+				Date date = Calendar.getInstance().getTime();
+				DateFormat justDate = new SimpleDateFormat("yyyy-MM-dd");
+				File root = new File(Environment.getExternalStorageDirectory(), "ManualCounts");
+				File csvfile = new File(root,justDate.format(date)+".csv");
+				intentShareFile.setType("text/*");
+				intentShareFile.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+csvfile.toString()));
+				startActivity(Intent.createChooser(intentShareFile, "Share File"));
+				return true;
 			}
 		});
     }
