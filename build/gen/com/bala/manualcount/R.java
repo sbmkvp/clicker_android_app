@@ -11,6 +11,9 @@ public final class R {
     public static final class attr {
     }
     public static final class id {
+        public static final int b_left=0x7f040003;
+        public static final int b_right=0x7f040004;
+        public static final int bottom_layout=0x7f040002;
         public static final int lay=0x7f040000;
         public static final int my_text=0x7f040001;
     }

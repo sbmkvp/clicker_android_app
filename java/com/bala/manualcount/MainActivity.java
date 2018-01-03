@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.Button;
 import android.net.Uri;
 import java.util.Random;
 import java.util.Calendar;
@@ -34,8 +35,64 @@ public class MainActivity extends Activity {
 		text.setText("0");
 		File root = new File(Environment.getExternalStorageDirectory(), "ManualCounts");
 		if (!root.exists()) { root.mkdirs(); }
-		Context context = getApplicationContext();
-		Toast.makeText(context, "Start by touching anywhere on screen...", Toast.LENGTH_SHORT).show();
+		Button left = (Button)findViewById(R.id.b_left);
+		left.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View view) {
+				try {
+					Date date = Calendar.getInstance().getTime();
+					DateFormat preciseTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+					DateFormat justDate = new SimpleDateFormat("yyyy-MM-dd");
+					File root = new File(Environment.getExternalStorageDirectory(), "ManualCounts");
+					File csvfile = new File(root,justDate.format(date)+".csv");
+					FileWriter fwriter = new FileWriter(csvfile,true);
+					BufferedWriter writer = new BufferedWriter(fwriter);
+					String strDate = preciseTime.format(date);
+					writer.append("\""+strDate+"\",\"left\"");
+					writer.newLine();
+					writer.close();
+        			TextView text = (TextView)findViewById(R.id.my_text);
+					int count = Integer.parseInt(text.getText().toString());
+					text.setText(Integer.toString(count+1));
+					Button left = (Button)findViewById(R.id.b_left);
+					int countleft = Integer.parseInt(left.getText().toString());
+					left.setText(Integer.toString(countleft+1));
+				} catch (IOException e) {
+					e.printStackTrace();
+					Context context = getApplicationContext();
+					Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+		Button right = (Button)findViewById(R.id.b_right);
+		right.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View view) {
+				try {
+					Date date = Calendar.getInstance().getTime();
+					DateFormat preciseTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+					DateFormat justDate = new SimpleDateFormat("yyyy-MM-dd");
+					File root = new File(Environment.getExternalStorageDirectory(), "ManualCounts");
+					File csvfile = new File(root,justDate.format(date)+".csv");
+					FileWriter fwriter = new FileWriter(csvfile,true);
+					BufferedWriter writer = new BufferedWriter(fwriter);
+					String strDate = preciseTime.format(date);
+					writer.append("\""+strDate+"\",\"right\"");
+					writer.newLine();
+					writer.close();
+        			TextView text = (TextView)findViewById(R.id.my_text);
+					int count = Integer.parseInt(text.getText().toString());
+					text.setText(Integer.toString(count+1));
+					Button right = (Button)findViewById(R.id.b_right);
+					int countright = Integer.parseInt(right.getText().toString());
+					right.setText(Integer.toString(countright+1));
+				} catch (IOException e) {
+					e.printStackTrace();
+					Context context = getApplicationContext();
+					Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 		LinearLayout layOut = (LinearLayout)findViewById(R.id.lay);
 		layOut.setOnClickListener(new View.OnClickListener(){
 			@Override
@@ -49,7 +106,7 @@ public class MainActivity extends Activity {
 					FileWriter fwriter = new FileWriter(csvfile,true);
 					BufferedWriter writer = new BufferedWriter(fwriter);
 					String strDate = preciseTime.format(date);
-					writer.append(strDate);
+					writer.append("\""+strDate+"\",\"other\"");
 					writer.newLine();
 					writer.close();
         			TextView text = (TextView)findViewById(R.id.my_text);
