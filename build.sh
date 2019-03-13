@@ -1,5 +1,5 @@
 #!/bin/sh
-SDK=/usr/local/Caskroom/android-sdk/3859397
+SDK=/opt/android-sdk/
 BUILD_TOOLS="${SDK}/build-tools/27.0.3"
 PLATFORM="${SDK}/platforms/android-21"
 "${BUILD_TOOLS}/aapt" package -f -m -J build/gen/ -S res -M AndroidManifest.xml -I "${PLATFORM}/android.jar" 
